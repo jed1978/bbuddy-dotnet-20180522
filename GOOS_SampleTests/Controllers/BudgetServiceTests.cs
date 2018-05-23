@@ -21,6 +21,7 @@ namespace GOOS_SampleTests.Controllers
         {
             _repository = Substitute.For<IRepository<BudgetEntity, string>>();
             _target = new BudgetService(_repository);
+            ArrangeMockBudgets();
         }
 
         [TestMethod]
@@ -40,11 +41,6 @@ namespace GOOS_SampleTests.Controllers
         [TestMethod]
         public void test_update_budget()
         {
-            _repository.Get("2018-08").Returns(new BudgetEntity
-            {
-                YearMonth = "2018-08",
-                Amount = 400
-            });
             
             var model = new BudgetViewModel()
             {
@@ -63,12 +59,6 @@ namespace GOOS_SampleTests.Controllers
         public void test_Get_Average_Budget_between_20180415_and_20180515_should_return_620()
         {
             decimal expected = 620;
-            _repository.GetList("2018-04", "2018-05").Returns(new List<BudgetEntity>()
-            {
-                new BudgetEntity{ YearMonth = "2018-04", Amount = 600},
-                new BudgetEntity{ YearMonth = "2018-05", Amount = 620}
-            });
-            
             
             var actual = _target.GetAverageBudget(DateTime.Parse("2018-04-15"), DateTime.Parse("2018-05-15"));
 
@@ -79,11 +69,7 @@ namespace GOOS_SampleTests.Controllers
         public void test_Get_Average_Budget_between_20180415_and_20180630_should_return_940()
         {
             decimal expected = 940;
-            _repository.GetList("2018-04", "2018-06").Returns(new List<BudgetEntity>()
-            {
-                new BudgetEntity{ YearMonth = "2018-04", Amount = 600},
-                new BudgetEntity{ YearMonth = "2018-05", Amount = 620}
-            });
+
             decimal actual = _target.GetAverageBudget(DateTime.Parse("2018-04-15"), DateTime.Parse("2018-06-30"));
 
             Assert.AreEqual(expected, actual);
@@ -93,11 +79,7 @@ namespace GOOS_SampleTests.Controllers
         public void test_Get_Average_Budget_between_20180520_and_20180716_should_return_560()
         {
             decimal expected = 560;
-            _repository.GetList("2018-05", "2018-07").Returns(new List<BudgetEntity>()
-            {
-                new BudgetEntity{ YearMonth = "2018-05", Amount = 620},
-                new BudgetEntity{ YearMonth = "2018-07", Amount = 620}
-            });
+            
             decimal actual = _target.GetAverageBudget(DateTime.Parse("2018-05-20"), DateTime.Parse("2018-07-16"));
 
             Assert.AreEqual(expected, actual);
@@ -107,13 +89,42 @@ namespace GOOS_SampleTests.Controllers
         public void test_Get_Average_Budget_between_20160115_and_20160213_should_return_251()
         {
             decimal expected = 251;
+            
+            decimal actual = _target.GetAverageBudget(DateTime.Parse("2016-01-15"), DateTime.Parse("2016-02-13"));
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        private void ArrangeMockBudgets()
+        {
+            _repository.Get("2018-08").Returns(new BudgetEntity
+            {
+                YearMonth = "2018-08",
+                Amount = 400
+            });
+
+            _repository.GetList("2018-04", "2018-06").Returns(new List<BudgetEntity>()
+            {
+                new BudgetEntity {YearMonth = "2018-04", Amount = 600},
+                new BudgetEntity {YearMonth = "2018-05", Amount = 620}
+            });
+
+            _repository.GetList("2018-04", "2018-05").Returns(new List<BudgetEntity>()
+            {
+                new BudgetEntity{ YearMonth = "2018-04", Amount = 600},
+                new BudgetEntity{ YearMonth = "2018-05", Amount = 620}
+            });
+
+            _repository.GetList("2018-05", "2018-07").Returns(new List<BudgetEntity>()
+            {
+                new BudgetEntity{ YearMonth = "2018-05", Amount = 620},
+                new BudgetEntity{ YearMonth = "2018-07", Amount = 620}
+            });
+
             _repository.GetList("2016-01", "2016-02").Returns(new List<BudgetEntity>()
             {
                 new BudgetEntity{ YearMonth = "2016-02", Amount = 560}
             });
-            decimal actual = _target.GetAverageBudget(DateTime.Parse("2016-01-15"), DateTime.Parse("2016-02-13"));
-
-            Assert.AreEqual(expected, actual);
         }
     }
 }
