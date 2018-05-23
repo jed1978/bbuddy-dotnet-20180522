@@ -41,9 +41,9 @@ namespace GOOS_Sample.Models
             var days = DateTime.DaysInMonth(startDate.Year, startDate.Month) - startDate.Day + 1;
             var firstMonthBudgets = CalculateBudgets(startYearMonth, averageBudgets, days); 
             var lastMonthBudgets = CalculateBudgets(endYearMonth, averageBudgets, endDate.Day); 
-            var fullMonthBudgets = CalculateBudgets(startDate, endDate, list, endYearMonth);
+            var otherMonthBudgets = CalculateBudgets(startDate, endDate, list, endYearMonth);
 
-            var sum = firstMonthBudgets + lastMonthBudgets + fullMonthBudgets;
+            var sum = firstMonthBudgets + lastMonthBudgets + otherMonthBudgets;
 
             return Decimal.Round(sum);
         }
