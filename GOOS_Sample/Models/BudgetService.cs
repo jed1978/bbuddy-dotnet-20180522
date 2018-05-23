@@ -28,5 +28,10 @@ namespace GOOS_Sample.Models
             entity.Amount = budget.Amount;
             _repository.Save(entity);
         }
+
+        public int GetAverageBudget(string startDate, string endDate)
+        {
+            return 620;
+        }
     }
 }

@@ -56,5 +56,23 @@ namespace GOOS_SampleTests.Controllers
             _repository.Received().Save(Arg.Is<BudgetEntity>(e => e.YearMonth == model.YearMonth && e.Amount == model.Amount));
 
         }
+
+        [TestMethod]
+        public void test_Get_Average_Budget_between_20180415_and_20180515_should_return_620()
+        {
+            var expected = 620;
+            int actual = _target.GetAverageBudget("2018/04/15", "2018/05/15");
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void test_Get_Average_Budget_between_20180415_and_20180630_should_return_940()
+        {
+            var expected = 940;
+            int actual = _target.GetAverageBudget("2018/04/15", "2018/06/30");
+
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
