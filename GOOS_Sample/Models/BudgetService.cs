@@ -52,13 +52,21 @@ namespace GOOS_Sample.Models
 
             var firstMonthDays = DateTime.DaysInMonth(startDate.Year, startDate.Month) - startDate.Day + 1;
             var lastMonthDays = endDate.Day;
+            decimal fullMonthBudgets = 0;
 
-            if ((endDate.Month - startDate.Month) > 1)
+            if (endDate.Month - startDate.Month > 1)
             {
-                //todo:
+                fullMonthBudgets = list.Skip(1).Take(endDate.Month - startDate.Month - 1)
+                    .Where(e => e.YearMonth != endYearMonth).Sum(e => e.Amount);
+
             }
 
-            var sum = averageBudgets[startYearMonth] * firstMonthDays + averageBudgets.Last().Value * lastMonthDays;
+            decimal lastMonthAvg = 0;
+            decimal firstMonthAvg = 0;
+            averageBudgets.TryGetValue(endYearMonth, out lastMonthAvg);
+            averageBudgets.TryGetValue(startYearMonth, out firstMonthAvg);
+
+            var sum = firstMonthAvg * firstMonthDays + lastMonthAvg * lastMonthDays + fullMonthBudgets;
 
             return sum;
         }

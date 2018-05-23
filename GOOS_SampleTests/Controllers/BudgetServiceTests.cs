@@ -82,10 +82,23 @@ namespace GOOS_SampleTests.Controllers
             _repository.GetList("2018-04", "2018-06").Returns(new List<BudgetEntity>()
             {
                 new BudgetEntity{ YearMonth = "2018-04", Amount = 600},
+                new BudgetEntity{ YearMonth = "2018-05", Amount = 620}
+            });
+            decimal actual = _target.GetAverageBudget(DateTime.Parse("2018-04-15"), DateTime.Parse("2018-06-30"));
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void test_Get_Average_Budget_between_20180520_and_20180716_should_return_560()
+        {
+            decimal expected = 560;
+            _repository.GetList("2018-05", "2018-07").Returns(new List<BudgetEntity>()
+            {
                 new BudgetEntity{ YearMonth = "2018-05", Amount = 620},
                 new BudgetEntity{ YearMonth = "2018-07", Amount = 620}
             });
-            decimal actual = _target.GetAverageBudget(DateTime.Parse("2018-04-15"), DateTime.Parse("2018-06-30"));
+            decimal actual = _target.GetAverageBudget(DateTime.Parse("2018-05-20"), DateTime.Parse("2018-07-16"));
 
             Assert.AreEqual(expected, actual);
         }
