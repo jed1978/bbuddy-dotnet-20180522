@@ -1,0 +1,27 @@
+﻿@model List<GOOS_Sample.Models.BudgetViewModel>
+
+@{
+    ViewBag.Title = "Budgets Adding Page";
+}
+
+<h2>Budgets Adding Page</h2>
+@using (Html.BeginForm("Add", "Budgets", FormMethod.Post))
+{
+    <label>年月</label> <input id="yearMonth" name="yearMonth" type="text"/>
+    <label>預算金額</label> <input id="amount" name="amount" type="text"/>
+    <input type="submit"/>
+}
+
+<table class="budgetTable">
+    <tr>
+        <th>YearMonth</th>
+        <th>Amount</th>
+    </tr>
+    @foreach (var budget in @Model)
+    {
+        <tr>
+            <td class="yearMonth">@Html.DisplayFor(item => budget.YearMonth)</td>
+            <td class="amount">@Html.DisplayFor(item=>budget.Amount)</td>
+        </tr>
+    }
+</table>
