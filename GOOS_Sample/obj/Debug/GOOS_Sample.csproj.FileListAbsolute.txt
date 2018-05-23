@@ -69,3 +69,7 @@ Z:\Workspace\code\bbuddy-dotnet-20180522\GOOS_Sample\obj\Debug\GOOS_Sample.cspro
 Z:\Workspace\code\bbuddy-dotnet-20180522\GOOS_Sample\obj\Debug\GOOS_Sample.csproj.CopyComplete
 Z:\Workspace\code\bbuddy-dotnet-20180522\GOOS_Sample\obj\Debug\GOOS_Sample.dll
 Z:\Workspace\code\bbuddy-dotnet-20180522\GOOS_Sample\obj\Debug\GOOS_Sample.pdb
+Z:\Workspace\code\bbuddy-dotnet-20180522\GOOS_Sample\bin\Autofac.dll
+Z:\Workspace\code\bbuddy-dotnet-20180522\GOOS_Sample\bin\Autofac.Integration.Mvc.dll
+Z:\Workspace\code\bbuddy-dotnet-20180522\GOOS_Sample\bin\Autofac.xml
+Z:\Workspace\code\bbuddy-dotnet-20180522\GOOS_Sample\bin\Autofac.Integration.Mvc.xml

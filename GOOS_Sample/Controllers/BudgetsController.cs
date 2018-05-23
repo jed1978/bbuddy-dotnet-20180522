@@ -9,10 +9,12 @@ namespace GOOS_Sample.Controllers
 {
     public class BudgetsController : Controller
     {
+        private readonly IBudgetService _budgetService;
         private static List<BudgetViewModel> _budgetViewModels;
 
-        public BudgetsController()
+        public BudgetsController(IBudgetService budgetService)
         {
+            _budgetService = budgetService;
             _budgetViewModels = new List<BudgetViewModel>();
         }
 
@@ -26,12 +28,20 @@ namespace GOOS_Sample.Controllers
         [HttpPost]
         public ActionResult Add(string yearMonth, int amount)
         {
-            _budgetViewModels.Add(new BudgetViewModel
+            var budget = new BudgetViewModel
             {
                 YearMonth = yearMonth,
                 Amount = amount
-            });
+            };
+            _budgetViewModels.Add(budget);
+            _budgetService.Add(budget);
             return View(_budgetViewModels);
+        }
+
+        [HttpPost]
+        public ActionResult Add2(string yearMonth, int amount)
+        {
+            throw new NotImplementedException();
         }
     }
 }

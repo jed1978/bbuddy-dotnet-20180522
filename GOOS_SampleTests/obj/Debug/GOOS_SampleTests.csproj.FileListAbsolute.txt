@@ -71,3 +71,13 @@ Z:\Workspace\code\bbuddy-dotnet-20180522\GOOS_SampleTests\obj\Debug\GOOS_SampleT
 Z:\Workspace\code\bbuddy-dotnet-20180522\GOOS_SampleTests\obj\Debug\GOOS_SampleTests.dll
 Z:\Workspace\code\bbuddy-dotnet-20180522\GOOS_SampleTests\obj\Debug\GOOS_SampleTests.pdb
 Z:\Workspace\code\bbuddy-dotnet-20180522\GOOS_SampleTests\bin\Debug\System.ValueTuple.dll
+Z:\Workspace\code\bbuddy-dotnet-20180522\GOOS_SampleTests\bin\Debug\Castle.Core.dll
+Z:\Workspace\code\bbuddy-dotnet-20180522\GOOS_SampleTests\bin\Debug\NSubstitute.dll
+Z:\Workspace\code\bbuddy-dotnet-20180522\GOOS_SampleTests\bin\Debug\System.Threading.Tasks.Extensions.dll
+Z:\Workspace\code\bbuddy-dotnet-20180522\GOOS_SampleTests\bin\Debug\System.Threading.Tasks.Extensions.xml
+Z:\Workspace\code\bbuddy-dotnet-20180522\GOOS_SampleTests\bin\Debug\Autofac.dll
+Z:\Workspace\code\bbuddy-dotnet-20180522\GOOS_SampleTests\bin\Debug\Autofac.Integration.Mvc.dll
+Z:\Workspace\code\bbuddy-dotnet-20180522\GOOS_SampleTests\bin\Debug\Autofac.xml
+Z:\Workspace\code\bbuddy-dotnet-20180522\GOOS_SampleTests\bin\Debug\Autofac.Integration.Mvc.xml
+Z:\Workspace\code\bbuddy-dotnet-20180522\GOOS_SampleTests\bin\Debug\EntityFramework.SqlServer.dll
+Z:\Workspace\code\bbuddy-dotnet-20180522\GOOS_SampleTests\bin\Debug\EntityFramework.SqlServer.xml
