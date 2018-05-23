@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using GOOS_Sample.Entities;
 using GOOS_Sample.Repoitories;
 
@@ -29,9 +31,36 @@ namespace GOOS_Sample.Models
             _repository.Save(entity);
         }
 
-        public int GetAverageBudget(string startDate, string endDate)
+        public decimal GetAverageBudget(DateTime startDate, DateTime endDate)
         {
-            return 620;
+            var startYearMonth = startDate.ToString("yyyy-MM");
+            var endYearMonth = endDate.ToString("yyyy-MM");
+            var list = _repository.GetList(startYearMonth, endYearMonth);
+            var averageBudgets = new Dictionary<string, decimal>();
+
+            foreach (var entity in list)
+            {
+                averageBudgets.Add(entity.YearMonth, entity.Amount / DateTime.DaysInMonth(
+                                                         int.Parse(
+                                                             entity.YearMonth
+                                                                 .Substring(0, 4)),
+                                                         int.Parse(
+                                                             entity.YearMonth
+                                                                 .Substring(5, 2))));
+
+            }
+
+            var firstMonthDays = DateTime.DaysInMonth(startDate.Year, startDate.Month) - startDate.Day + 1;
+            var lastMonthDays = endDate.Day;
+
+            if ((endDate.Month - startDate.Month) > 1)
+            {
+                //todo:
+            }
+
+            var sum = averageBudgets[startYearMonth] * firstMonthDays + averageBudgets.Last().Value * lastMonthDays;
+
+            return sum;
         }
     }
 }
