@@ -44,9 +44,10 @@ namespace GOOS_Sample.Models
 
             var fullMonthBudgets = CalculateFullMonthBudgets(startDate, endDate, list, endYearMonth);
 
+
             var sum = firstMonthBudgets + lastMonthBudgets + fullMonthBudgets;
 
-            return sum;
+            return Decimal.Round(sum);
         }
 
         private decimal CalculateLastMonthBudgets(DateTime endDate, Dictionary<string, decimal> averageBudgets, string endYearMonth)
@@ -85,7 +86,7 @@ namespace GOOS_Sample.Models
 
             foreach (var entity in list)
             {
-                averageBudgets.Add(entity.YearMonth, entity.Amount / DateTime.DaysInMonth(
+                averageBudgets.Add(entity.YearMonth, Convert.ToDecimal(entity.Amount) / DateTime.DaysInMonth(
                                                          int.Parse(
                                                              entity.YearMonth
                                                                  .Substring(0, 4)),
