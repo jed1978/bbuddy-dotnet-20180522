@@ -36,6 +36,51 @@ namespace GOOS_Sample.Models
             var startYearMonth = startDate.ToString("yyyy-MM");
             var endYearMonth = endDate.ToString("yyyy-MM");
             var list = _repository.GetList(startYearMonth, endYearMonth);
+            var averageBudgets = CalculateAverageBudgets(list);
+
+            var firstMonthBudgets = CalculateFirstMonthBudgets(startDate, averageBudgets, startYearMonth);
+
+            var lastMonthBudgets = CalculateLastMonthBudgets(endDate, averageBudgets, endYearMonth);
+
+            var fullMonthBudgets = CalculateFullMonthBudgets(startDate, endDate, list, endYearMonth);
+
+            var sum = firstMonthBudgets + lastMonthBudgets + fullMonthBudgets;
+
+            return sum;
+        }
+
+        private decimal CalculateLastMonthBudgets(DateTime endDate, Dictionary<string, decimal> averageBudgets, string endYearMonth)
+        {
+            var lastMonthDays = endDate.Day;
+            decimal lastMonthAvg = 0;
+            averageBudgets.TryGetValue(endYearMonth, out lastMonthAvg);
+            return lastMonthAvg * lastMonthDays;
+        }
+
+        private decimal CalculateFirstMonthBudgets(DateTime startDate, Dictionary<string, decimal> averageBudgets, string startYearMonth)
+        {
+            var firstMonthDays = DateTime.DaysInMonth(startDate.Year, startDate.Month) - startDate.Day + 1;
+            decimal firstMonthAvg = 0;
+            averageBudgets.TryGetValue(startYearMonth, out firstMonthAvg);
+            return firstMonthAvg * firstMonthDays;
+        }
+
+        private decimal CalculateFullMonthBudgets(DateTime startDate, DateTime endDate, List<BudgetEntity> list, string endYearMonth)
+        {
+            decimal fullMonthBudgets = 0;
+
+            if (endDate.Month - startDate.Month > 1)
+            {
+                fullMonthBudgets = list.Skip(1).Take(endDate.Month - startDate.Month - 1)
+                    .Where(e => e.YearMonth != endYearMonth)
+                    .Sum(e => e.Amount);
+            }
+
+            return fullMonthBudgets;
+        }
+
+        private Dictionary<string, decimal> CalculateAverageBudgets(List<BudgetEntity> list)
+        {
             var averageBudgets = new Dictionary<string, decimal>();
 
             foreach (var entity in list)
@@ -47,28 +92,9 @@ namespace GOOS_Sample.Models
                                                          int.Parse(
                                                              entity.YearMonth
                                                                  .Substring(5, 2))));
-
             }
 
-            var firstMonthDays = DateTime.DaysInMonth(startDate.Year, startDate.Month) - startDate.Day + 1;
-            var lastMonthDays = endDate.Day;
-            decimal fullMonthBudgets = 0;
-
-            if (endDate.Month - startDate.Month > 1)
-            {
-                fullMonthBudgets = list.Skip(1).Take(endDate.Month - startDate.Month - 1)
-                    .Where(e => e.YearMonth != endYearMonth).Sum(e => e.Amount);
-
-            }
-
-            decimal lastMonthAvg = 0;
-            decimal firstMonthAvg = 0;
-            averageBudgets.TryGetValue(endYearMonth, out lastMonthAvg);
-            averageBudgets.TryGetValue(startYearMonth, out firstMonthAvg);
-
-            var sum = firstMonthAvg * firstMonthDays + lastMonthAvg * lastMonthDays + fullMonthBudgets;
-
-            return sum;
+            return averageBudgets;
         }
     }
 }
