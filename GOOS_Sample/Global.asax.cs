@@ -43,8 +43,8 @@ namespace GOOS_Sample
 
             // OPTIONAL: Enable action method parameter injection (RARE).
             // builder.InjectActionInvoker();
-            builder.RegisterType<IBudgetService>().AsImplementedInterfaces().SingleInstance();
-            builder.RegisterType<Repository<BudgetEntity, string>>().AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<BudgetService>().AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<InMemoryRepository<BudgetEntity, string>>().AsImplementedInterfaces().SingleInstance();
 
             // Set the dependency resolver to be Autofac.
             var container = builder.Build();

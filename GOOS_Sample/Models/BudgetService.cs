@@ -19,7 +19,7 @@ namespace GOOS_Sample.Models
         {
             _repository.Save(new BudgetEntity()
             {
-                YearMonth = budget.YearMonth,
+                Id = budget.YearMonth,
                 Amount = budget.Amount
             });
         }
