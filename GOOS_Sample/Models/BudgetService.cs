@@ -6,6 +6,22 @@ using GOOS_Sample.Repoitories;
 
 namespace GOOS_Sample.Models
 {
+    public class DateRange
+    {
+        public DateRange(DateTime startDate, DateTime endDate)
+        {
+            StartDate = startDate;
+            EndDate = endDate;
+            StartYearMonth = startDate.ToString("yyyy-MM");
+            EndYearMonth = endDate.ToString("yyyy-MM");
+        }
+
+        public DateTime StartDate { get; private set; }
+        public DateTime EndDate { get; private set; }
+        public string StartYearMonth { get; private set; }
+        public string EndYearMonth { get; private set; }
+    }
+
     public class BudgetService : IBudgetService
     {
         private readonly IRepository<BudgetEntity, string> _repository;
@@ -32,19 +48,28 @@ namespace GOOS_Sample.Models
         }
 
         public decimal GetAverageBudget(DateTime startDate, DateTime endDate)
-        {
-            var startYearMonth = startDate.ToString("yyyy-MM");
-            var endYearMonth = endDate.ToString("yyyy-MM");
-            var list = _repository.GetList(startYearMonth, endYearMonth);
-            var averageBudgets = CalculateAverageBudgets(list);
+        {       
+            var dateRange = MakeDateRange(startDate, endDate);
+            var budgets = _repository.GetList(dateRange.StartYearMonth, dateRange.EndYearMonth);
+            var budgetAverage = CalculateAverageBudgets(budgets);         
+            var budgetSummary = SumBudgets(dateRange, budgetAverage, budgets);
+            return budgetSummary;
+        }
 
-            var days = DateTime.DaysInMonth(startDate.Year, startDate.Month) - startDate.Day + 1;
-            var firstMonthBudgets = CalculateBudgets(startYearMonth, averageBudgets, days); 
-            var lastMonthBudgets = CalculateBudgets(endYearMonth, averageBudgets, endDate.Day); 
-            var otherMonthBudgets = CalculateBudgets(startDate, endDate, list, endYearMonth);
+        private DateRange MakeDateRange(DateTime startDate, DateTime endDate)
+        {
+            var dateRange = new DateRange(startDate, endDate);
+            return dateRange;
+        }
+
+        private decimal SumBudgets(DateRange dateRange, Dictionary<string, decimal> averageBudgets, List<BudgetEntity> list)
+        {
+            var days = DateTime.DaysInMonth(dateRange.StartDate.Year, dateRange.StartDate.Month) - dateRange.StartDate.Day + 1;
+            var firstMonthBudgets = CalculateBudgets(dateRange.StartYearMonth, averageBudgets, days);
+            var lastMonthBudgets = CalculateBudgets(dateRange.EndYearMonth, averageBudgets, dateRange.EndDate.Day);
+            var otherMonthBudgets = CalculateBudgets(dateRange.StartDate, dateRange.EndDate, list, dateRange.EndYearMonth);
 
             var sum = firstMonthBudgets + lastMonthBudgets + otherMonthBudgets;
-
             return Decimal.Round(sum);
         }
 

@@ -41,6 +41,11 @@ namespace GOOS_SampleTests.Controllers
         [TestMethod]
         public void test_update_budget()
         {
+            _repository.Get("2018-08").Returns(new BudgetEntity
+            {
+                YearMonth = "2018-08",
+                Amount = 400
+            });
             
             var model = new BudgetViewModel()
             {
@@ -97,12 +102,6 @@ namespace GOOS_SampleTests.Controllers
 
         private void ArrangeMockBudgets()
         {
-            _repository.Get("2018-08").Returns(new BudgetEntity
-            {
-                YearMonth = "2018-08",
-                Amount = 400
-            });
-
             _repository.GetList("2018-04", "2018-06").Returns(new List<BudgetEntity>()
             {
                 new BudgetEntity {YearMonth = "2018-04", Amount = 600},
